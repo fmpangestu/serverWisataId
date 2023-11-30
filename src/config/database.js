@@ -1,11 +1,12 @@
 const mysql = require("mysql2");
 
-const connection = mysql.createConnection({
+// Asynchronous
+const dbPool = mysql.createPool({
   connectionLimit: 10,
-  host: "localhost",
-  user: "root",
-  password: "Backend_2023",
-  database: "capstone_dicoding",
+  host: process.env.DB_HOST,
+  user: process.env.DB_USERNAME,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_NAME,
 });
 
-module.exports = connection.promise;
+module.exports = dbPool.promise();
