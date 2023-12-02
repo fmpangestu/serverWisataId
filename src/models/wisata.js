@@ -7,9 +7,32 @@ const getAllWisata = () => {
 };
 
 const createWisata = (body) => {
-  const sqlQuery = `INSERT INTO wisata (namaWisata, lokasi, kota,provinsi, kategori, img, ratting) 
-                    VALUES ('${body.namaWisata}', '${body.lokasi}', '${body.kota}', '${body.provinsi}', '${body.kategori}', '${body.img}', '${body.ratting}')`;
-  return dbPool.execute(sqlQuery);
+  try {
+    const sqlQuery = `INSERT INTO wisata (
+      nama_wisata, kota, provinsi, alamat, deskripsi, foto_wisata, url_foto,
+      logo_daerah, url_logo, kategori, latitude, longtitude, rating)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
+
+    const values = [
+      body.nama_wisata,
+      body.kota,
+      body.provinsi,
+      body.alamat,
+      body.deskripsi,
+      body.foto_wisata,
+      body.url_foto,
+      body.logo_daerah,
+      body.url_logo,
+      body.kategori,
+      body.latitude,
+      body.longtitude,
+      body.rating,
+    ];
+
+    return dbPool.execute(sqlQuery, values);
+  } catch (error) {
+    throw new Error(error.message);
+  }
 };
 
 module.exports = {
