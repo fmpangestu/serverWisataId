@@ -23,6 +23,12 @@ app.use(middlewareLogRequest);
 
 app.use(wisataRoutes);
 
+app.use((err, req, res, next) => {
+  res.json({
+    message: err.message,
+  });
+});
+
 app.listen(PORT, () => {
   console.log(`Server listening on port ${PORT}`);
 });
