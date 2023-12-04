@@ -20,21 +20,27 @@ const getAllWisata = async (req, res) => {
   }
 };
 
-// const getWisataByProvinsi = async (req, res) => {
-//   try {
-//     const [data] = await WisataModel.getAllWisata(); // menggunakan await untuk menunggu data dari database
+const getWisataByKategori = async (req, res) => {
+  const { kategori } = req.params;
 
-//     res.json({
-//       message: "Connection Succes",
-//       data: data,
-//     });
-//   } catch (error) {
-//     res.status(500).json({
-//       message: "Server Error",
-//       serverMessage: error,
-//     });
-//   }
-// };
+  try {
+    const [data] = await WisataModel.getWisataByKategori(kategori);
+
+    if (!data || data.length === 0) {
+      return res.status(404).json({ message: "Wisata Tidak Ditemukan" });
+    }
+
+    res.json({
+      message: `${data.length} Wisata Ditemukan`,
+      data: data,
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: "Server Error",
+      serverMessage: error,
+    });
+  }
+};
 
 const getWisataByKota = async (req, res) => {
   const { kota } = req.params;
@@ -47,7 +53,7 @@ const getWisataByKota = async (req, res) => {
     }
 
     res.json({
-      message: `Wisata Ditemukan`,
+      message: `${data.length} Wisata Ditemukan`,
       data: data,
     });
   } catch (error) {
@@ -71,7 +77,7 @@ const getWisataByProvinsi = async (req, res) => {
     }
 
     res.json({
-      message: `Wisata Ditemukan`,
+      message: `${data.length} Wisata Ditemukan`,
       data: data,
     });
   } catch (error) {
@@ -82,21 +88,27 @@ const getWisataByProvinsi = async (req, res) => {
   }
 };
 
-// const getWisataByKota = async (req, res) => {
-//   try {
-//     const [data] = await WisataModel.getAllWisata(); // menggunakan await untuk menunggu data dari database
+const getWisataByRating = async (req, res) => {
+  const { rating } = req.params;
+  try {
+    const [data] = await WisataModel.getWisataByRating(rating); // menggunakan await untuk menunggu data dari database
 
-//     res.json({
-//       message: "Connection Succes",
-//       data: data,
-//     });
-//   } catch (error) {
-//     res.status(500).json({
-//       message: "Server Error",
-//       serverMessage: error,
-//     });
-//   }
-// };
+    if (!data || data.length === 0) {
+      return res
+        .status(404)
+        .json({ message: "Wisata Tidak Ditemukan", error: error });
+    }
+    res.json({
+      message: `${data.length} Wisata Ditemukan`,
+      data: data,
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: "Server Error",
+      serverMessage: error,
+    });
+  }
+};
 
 const createWisata = async (req, res) => {
   if (req.files === null)
@@ -168,7 +180,7 @@ const createWisata = async (req, res) => {
       rating: rating,
     });
 
-    res.status(201).json({ message: "Product Create Success" });
+    res.status(201).json({ message: "Data Wisata Create Success" });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Server Error", serverMessage: error });
@@ -177,9 +189,9 @@ const createWisata = async (req, res) => {
 
 module.exports = {
   getAllWisata,
-  // getWisataByKategori,
+  getWisataByKategori,
   getWisataByKota,
   getWisataByProvinsi,
-  // getWisataByRating,
+  getWisataByRating,
   createWisata,
 };
