@@ -1,4 +1,3 @@
-const { log, error } = require("console");
 const WisataModel = require("../models/wisata");
 const path = require("path");
 const util = require("util");
@@ -10,6 +9,28 @@ const getAllWisata = async (req, res) => {
 
     res.json({
       message: "Connection Succes",
+      data: data,
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: "Server Error",
+      serverMessage: error,
+    });
+  }
+};
+
+const getWisataById = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const [data] = await WisataModel.getWisataById(id);
+
+    if (!data || data.length === 0) {
+      return res.status(404).json({ message: "Wisata Tidak Ditemukan" });
+    }
+
+    res.json({
+      message: `Wisata Ditemukan`,
       data: data,
     });
   } catch (error) {
@@ -189,6 +210,7 @@ const createWisata = async (req, res) => {
 
 module.exports = {
   getAllWisata,
+  getWisataById,
   getWisataByKategori,
   getWisataByKota,
   getWisataByProvinsi,

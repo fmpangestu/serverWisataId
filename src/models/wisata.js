@@ -6,6 +6,12 @@ const getAllWisata = () => {
   return dbPool.execute(sqlQuery);
 };
 
+const getWisataById = (id) => {
+  const sqlQuery = "SELECT * FROM wisata WHERE id = ?";
+
+  return dbPool.execute(sqlQuery, [id]);
+};
+
 const getWisataByKategori = (kategori) => {
   const sqlQuery = "SELECT * FROM wisata WHERE kategori = ?";
 
@@ -61,6 +67,7 @@ const createWisata = (body) => {
 
 module.exports = {
   getAllWisata,
+  getWisataById,
   getWisataByKategori,
   getWisataByKota,
   getWisataByProvinsi,
