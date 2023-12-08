@@ -8,7 +8,7 @@ const getAllWisata = async (req, res) => {
     const [data] = await WisataModel.getAllWisata(); // menggunakan await untuk menunggu data dari database
 
     res.json({
-      message: "Connection Succes",
+      message: `Connection Succes. Menampilkan ${data.length} Data Wisata`,
       data: data,
     });
   } catch (error) {
@@ -33,6 +33,68 @@ const getWisataById = async (req, res) => {
       message: `Wisata Ditemukan`,
       data: data,
     });
+  } catch (error) {
+    res.status(500).json({
+      message: "Server Error",
+      serverMessage: error,
+    });
+  }
+};
+
+const getKota = async (req, res) => {
+  try {
+    const [data] = await WisataModel.getKota();
+    const dataUnik = data.filter(
+      (item, index, self) =>
+        index === self.findIndex((t) => t.kota === item.kota)
+    );
+
+    res.json({
+      message: `${dataUnik.length} Kota Wisata Ditemukan`,
+      data: dataUnik,
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: "Server Error",
+      serverMessage: error,
+    });
+  }
+};
+
+const getKategori = async (req, res) => {
+  try {
+    const [data] = await WisataModel.getKategori();
+    const dataUnik = data.filter(
+      (item, index, self) =>
+        index === self.findIndex((t) => t.kategori === item.kategori)
+    );
+    if (data)
+      res.json({
+        message: `${dataUnik.length} Kategori Wisata Ditemukan`,
+        data: dataUnik,
+      });
+  } catch (error) {
+    res.status(500).json({
+      message: "Server Error",
+      serverMessage: error,
+    });
+  }
+};
+
+const getRating = async (req, res) => {
+  try {
+    const [data] = await WisataModel.getRating();
+    const dataUnik = data.filter(
+      (item, index, self) =>
+        index === self.findIndex((t) => t.rating === item.rating)
+    );
+    dataUnik.sort((a, b) => parseFloat(a.rating) - parseFloat(b.rating));
+
+    if (data)
+      res.json({
+        message: `${dataUnik.length} Rating Wisata Ditemukan`,
+        data: dataUnik,
+      });
   } catch (error) {
     res.status(500).json({
       message: "Server Error",
@@ -211,6 +273,9 @@ const createWisata = async (req, res) => {
 module.exports = {
   getAllWisata,
   getWisataById,
+  getKota,
+  getKategori,
+  getRating,
   getWisataByKategori,
   getWisataByKota,
   getWisataByProvinsi,

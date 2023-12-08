@@ -5,6 +5,9 @@ const router = express.Router();
 // READ - GET
 router.get("/wisata", wisataController.getAllWisata);
 router.get("/wisata/:id", wisataController.getWisataById);
+router.get("/wisata/all/kota", wisataController.getKota);
+router.get("/wisata/all/kategori", wisataController.getKategori);
+router.get("/wisata/all/rating", wisataController.getRating);
 router.get("/wisata/kategori/:kategori", wisataController.getWisataByKategori);
 router.get("/wisata/kota/:kota", wisataController.getWisataByKota);
 router.get("/wisata/provinsi/:provinsi", wisataController.getWisataByProvinsi);
