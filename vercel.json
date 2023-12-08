@@ -1,8 +1,15 @@
 {
+  "version": 2,
+  "builds": [
+    {
+      "src": "src/index.js",
+      "use": "@vercel/node"
+    }
+  ],
   "routes": [
     {
-      "src": "/wisata",
-      "dest": "/"
+      "src": "/(.*)",
+      "dest": "src/index.js"
     }
   ]
 }
