@@ -265,7 +265,29 @@ const createWisata = async (req, res) => {
 
     res.status(201).json({ message: "Data Wisata Create Success" });
   } catch (error) {
-    console.error(error);
+    res.status(500).json({ message: "Server Error", serverMessage: error });
+  }
+};
+
+const updateWisata = async (req, res) => {
+  const { id } = req.params;
+  const { foto_wisata } = req.body;
+
+  // foto
+  const foto = req.files.foto_wisata;
+  const fotoSize = foto.size;
+  const ext_foto = path.extname(foto.name);
+  const fotoName = foto.md5 + ext_foto;
+  const url_foto = `${req.protocol}://${req.get("host")}/images/${fotoName}`;
+  const allowedTypeFoto = [".png", ".jpg", ".jpeg"];
+  if (!allowedTypeFoto.includes(ext_foto.toLowerCase()))
+    return res.status(422).json({ message: "Invalid Image" });
+  if (fotoSize > 5000000)
+    return res.status(422).json({ message: "Image must be less than 5 MB" });
+  try {
+    await updateFotoWisata(id, foto_wisata);
+    res.status(200).json({ message: "Foto Wisata Updated Successfully" });
+  } catch (error) {
     res.status(500).json({ message: "Server Error", serverMessage: error });
   }
 };
@@ -281,4 +303,5 @@ module.exports = {
   getWisataByProvinsi,
   getWisataByRating,
   createWisata,
+  updateWisata,
 };

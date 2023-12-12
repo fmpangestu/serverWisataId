@@ -83,6 +83,12 @@ const createWisata = (body) => {
   }
 };
 
+const updateWisata = async (id, foto_wisata, url_foto) => {
+  const sqlQuery =
+    "UPDATE wisata SET foto_wisata = ? url_foto = ? WHERE id = ?";
+  await dbPool.execute(sqlQuery, [foto_wisata, url_foto, id]);
+};
+
 module.exports = {
   getAllWisata,
   getKota,
@@ -94,4 +100,5 @@ module.exports = {
   getWisataByProvinsi,
   getWisataByRating,
   createWisata,
+  updateWisata,
 };

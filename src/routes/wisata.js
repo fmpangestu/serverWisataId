@@ -16,4 +16,7 @@ router.get("/wisata/rating/:rating", wisataController.getWisataByRating);
 // CREATE - POST
 router.post("/wisata", wisataController.createWisata);
 
+// Update - Patch
+router.patch("/wisata/:id", wisataController.updateWisata);
+
 module.exports = router;
