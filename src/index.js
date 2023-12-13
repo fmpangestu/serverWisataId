@@ -4,8 +4,6 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 
 const bodyParser = require("body-parser");
-// const wisataRoutes = require("./routes/wisata.js");
-// const createWisata = require("./routes/wisata.js");
 const wisataRoutes = require("./routes/wisata.js");
 const middlewareLogRequest = require("./middleware/logs.js");
 const cors = require("cors");
